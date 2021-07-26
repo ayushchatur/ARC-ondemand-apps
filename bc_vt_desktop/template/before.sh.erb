@@ -4,7 +4,12 @@ hostname
 pwd
 
 module load containers/singularity
-singularity run --cleanenv \
-    --bind `pwd`:/cwd,/projects,/work/$USER \
+
+## some singularity cleanup
+unset SINGULARITY_TMPDIR
+export SINGULARITYENV_LD_LIBRARY_PATH=$LD_LIBRARY_PATH
+
+singularity run --cleanenv --nv \
+    --bind `pwd`:/cwd,/projects,/work/$USER,/cm \
     /projects/arcsingularity/ubuntu-xfce-v0.0.1.sif &
 
