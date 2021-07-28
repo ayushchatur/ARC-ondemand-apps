@@ -40,13 +40,13 @@ if [[ ! -d $datadir ]]; then
   mkdir -p $labbcatdir
 
   #copy labbcat files
-  singularity exec $labbcatimg cp -r /labbcat $labbcatdir/
+  singularity exec -bind=${labbcatdir} $labbcatimg cp -r /labbcat $labbcatdir/
   #copy tomcat files
   mkdir -p $labbcatdir/usr/local
-  singularity exec $labbcatimg cp -r /usr/local/tomcat $labbcatdir/usr/local/
+  singularity exec -bind=${labbcatdir} $labbcatimg cp -r /usr/local/tomcat $labbcatdir/usr/local/
   #copy /usr/local/bin files
   mkdir -p $labbcatdir/usr/local #unnecessary since we did for tomcat above
-  singularity exec $labbcatimg cp -r /usr/local/bin $labbcatdir/usr/local/
+  singularity exec -bind=${labbcatdir} $labbcatimg cp -r /usr/local/bin $labbcatdir/usr/local/
   
   #symlink labbcat to ROOT webapps directory
   rm $labbcatdir/usr/local/tomcat/webapps/ROOT
@@ -63,7 +63,7 @@ if [[ ! -d $datadir ]]; then
   
   #set up user configuration
   mkdir -p $mysqldir/etc
-  singularity exec $mysqlimg cp /etc/my.cnf $mysqldir/etc/
+  singularity exec --bind=$mysqldir $mysqlimg cp /etc/my.cnf $mysqldir/etc/
   #change user
   sed -i "s/^user=.*$/user=${USER}/g" $mysqldir/etc/my.cnf
   #add port
@@ -127,8 +127,8 @@ echo "  shutdown port:   $shutdownport"
 echo "  redirect port:   $redirectport"
 
 #set labbcat base url (used for links and stylesheets, etc)
-LABBCAT_BASE_URL="https://ondemand.arc.vt.edu"
-[[ $SLURM_SUBMIT_HOST == *"ondemand-preprod"* ]] && LABBCAT_BASE_URL="https://ondemand-preprod.it.vt.edu"
+LABBCAT_BASE_URL="https://ood.arc.vt.edu"
+## [[ $SLURM_SUBMIT_HOST == *"ondemand-preprod"* ]] && LABBCAT_BASE_URL="https://ondemand-preprod.it.vt.edu"
 [[ $SLURM_SUBMIT_HOST == *"ood"* ]] && LABBCAT_BASE_URL="https://ood.arc.vt.edu"
 LABBCAT_BASE_URL="${LABBCAT_BASE_URL}/rnode/$(hostname)/$port"
 #LABBCAT_BASE_URL="/rnode/$(hostname)/$port"
