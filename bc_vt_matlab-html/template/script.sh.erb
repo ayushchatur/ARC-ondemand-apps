@@ -13,7 +13,8 @@ echo starting Matlab on $(hostname) using $port
 
 ## APP_PORT=$port MLM_LICENSE_FILE=/apps/packages/matlab/R2021a/licenses/network.lic
 
-singularity run --bind=$MATLAB_DIR:/opt/matlab,$TMPFS:/tmp,/work/${USER},/projects,`pwd`/matlab.rc:/mathworks.rc \
+singularity run --writable-tmpfs \
+    --bind=$MATLAB_DIR:/opt/matlab,$TMPFS:/tmp,/work/${USER},/projects,`pwd`/matlab.rc:/mathworks.rc \
     /projects/arcsingularity/matlab-html_July2021b.sif
 
 wait $!

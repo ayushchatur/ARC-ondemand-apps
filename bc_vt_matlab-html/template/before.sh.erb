@@ -19,7 +19,7 @@ port=$(find_port ${host})
 #### create a resoure file matlab.rc
 echo export APP_PORT=${port} >matlab.rc
 echo export BASE_URL="/matlab" >>matlab.rc
-echo export MATLAB_LOG_DIR="/tmp" >>matlab.rc
+echo export MATLAB_LOG_DIR=/tmp >>matlab.rc
 echo export EXT_URL="ood.arc.vt.edu" >>matlab.rc
 
 
