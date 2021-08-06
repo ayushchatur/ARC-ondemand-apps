@@ -1,4 +1,5 @@
 #!/bin/bash -l
+unset XDG_RUNTIME_DIR
 
 # in case we want to do something fun with host/port/etc later
 while [ ! -f ./connection.rc ]; do sleep 1; done

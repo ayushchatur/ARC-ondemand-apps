@@ -3,7 +3,7 @@
 ---
 cluster: 
   - 'tinkercliffs'
-#  - 'infer'
+  - 'infer'
 
 # Define attribute values that aren't meant to be modified by the user within
 # the Dashboard form
@@ -12,7 +12,7 @@ attributes:
 # specify widgets for user modifiable job settings
   bc_queue:
     help: |
-      - Currently available on normal_q, dev_q, and largemem_q
+      - Currently available on t4_normal_q, t4_dev_q, normal_q, dev_q, and largemem_q
 
   bc_num_hours:
     label: Number of hours (min-1, max-48)
@@ -45,15 +45,15 @@ attributes:
     max: 128
     step: 1
 
-  gpu_per_node: 0
-#    widget: number_field
-#    label: Number of GPUs per node (min-0, max-2)
-#    value: 0
-#    min: 0
-#    max: 1
-#    step: 1
-#    help: |
-#       - If requesting GPU nodes, you must enter a GPU-enabled Partition above or the job will fail.
+  gpu_per_node: 
+    widget: number_field
+    label: Number of GPUs per node (min-0, max-2)
+    value: 0
+    min: 0
+    max: 1
+    step: 1
+    help: |
+       - If requesting GPU nodes, you must enter a GPU-enabled Partition above or the job will fail.
 
   bc_vnc_resolution:
     required: true
