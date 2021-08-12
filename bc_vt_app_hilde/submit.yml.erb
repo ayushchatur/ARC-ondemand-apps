@@ -32,5 +32,6 @@ script:
     - "--nodes=<%= "1" %>"
     - "--cpus-per-task=<%= num_cores.blank? ? "1" : num_cores %>"
     - "--time=<%= bc_num_hours + ":0:0" %>"
-    - "--account=<%= bc_account %>"
+    - "--account=roberthildebrand"
     - "--reservation=<%= reservation %>"
+    - "--partition=normal_q"

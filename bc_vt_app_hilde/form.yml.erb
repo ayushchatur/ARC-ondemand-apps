@@ -2,17 +2,13 @@
 #
 ---
 cluster:
-  - 'tinkercliffs'
-  - 'infer'
+  - 'Cascades'
+  - 'Dragonstooth'
 
 # Define attribute values that aren't meant to be modified by the user within
 # the Dashboard form
 attributes:
   # Set and load the  modules and environment that need to be loaded for Jupyter to run
-
-  bc_queue:
-    help: |
-      - To request a GPU enabled queue, preface it with v100_. Example: v100_normal_q
 
   bc_num_hours:
     label: Number of hours (min-1, max-48)
@@ -22,19 +18,6 @@ attributes:
     max: 72
     step: 1
 
-  bc_account:
-    widget: text_field
-    label: Account
-    value: ""
-    help: |
-       - The allocation you would like to use for SLURM.
-
-  reservation:
-    widget: text_field
-    label: Reservation
-    value: ""
-    help: |
-       - The allocation reservation you would like to use for SLURM.
   num_cores:
     widget: number_field
     label: Number of cores per node (min-1, max-8)
@@ -50,7 +33,7 @@ attributes:
        - These Images are pulled directly from the Jupyter Docker Stacks.  See here: https://jupyter-docker-stacks.readthedocs.io/en/latest/using/selecting.html#core-stacks
     value: ""    
     options:
-    <%- Dir.glob('/projects/arcsingularity/AMD/*jupyter*sif').each do |f| -%>
+    <%- Dir.glob('/projects/arcsingularity/AMD/*app_hilde*sif').each do |f| -%>
       <%- sif = f.sub('/projects/arcsingularity/AMD/','') -%>
       <%- pkg = f.sub('/projects/arcsingularity/AMD/','').sub('desktop','').chomp(".sif").split('_').first -%>
       <%- JNver = f.sub('/projects/arcsingularity/AMD/','').sub('desktop','').chomp(".sif").split('_').last -%>
@@ -63,9 +46,5 @@ attributes:
 #
 form:
   - Container
-  - bc_account
-  - reservation
-  - bc_queue
   - bc_num_hours
   - num_cores
-  - bc_email_on_started
