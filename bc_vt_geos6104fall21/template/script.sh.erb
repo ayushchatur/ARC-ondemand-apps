@@ -29,7 +29,7 @@ if [ ! -d "$DIR" ]; then
   # need to install CONDA PACKAGES
   mkdir -p $DIR
   echo "Installing conda packages files in ${DIR} ..."
-  singularity exec --nv --writable-tmpfs --bind=${TMPDIR}:/tmp,`pwd`/install_script.sh:/install.sh,`pwd`/env.yaml:/env.yaml /home/ayushchatur/dockertemp/geo_fall21_v1.sif bash /install.sh
+  singularity exec --nv --writable-tmpfs --bind=${TMPDIR}:/tmp,`pwd`/install_script.sh:/install.sh,`pwd`/env.yaml:/env.yaml /projects/arcsingularity/AMD/geo_fall21_latest.sif bash /install.sh
 fi
 
 # Benchmark info
@@ -42,6 +42,6 @@ set -x
 pwd
 module list
 singularity exec --writable-tmpfs --bind=${TMPDIR}:/tmp,/projects/geos6104fall21/:/projects,/work:/work \
-  /home/ayushchatur/dockertemp/geo_fall21_v1.sif bash ./run_script.sh
+  /projects/arcsingularity/AMD/geo_fall21_latest.sif bash ./run_script.sh
 
 echo "end of script.sh"
