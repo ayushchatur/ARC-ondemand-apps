@@ -33,3 +33,18 @@ OnDemand node):
    cd /var/www/ood/apps/sys
    $git clone git@github.com:rsettlage/ondemand2.git
 ```
+
+### Packages made available under this application
+
+``` sh
+conda install -c conda-forge nb_conda
+conda install -c conda-forge jupyterlab
+conda install -c conda-forge matplotlib
+conda install -c conda-forge scipy
+conda install -c conda-forge cartopy
+conda install -c conda-forge scikit-learn
+conda install -c conda-forge statsmodels
+conda install -c conda-forge netcdf4
+conda install -c conda-forge pywavelets
+conda install -c conda-forge pydap
+```
