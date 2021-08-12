@@ -33,3 +33,22 @@ OnDemand node):
    cd /var/www/ood/apps/sys
    $git clone git@github.com:rsettlage/ondemand2.git
 ```
+
+### Packages made available under this application
+
+``` sh
+RUN conda -y -c conda-forge numpy
+ 'jupyterlab' \
+ 'matplotlib' \
+ 'scipy'\
+ 'scikit-learn'
+ 'folium' \
+ 'more-itertools'
+ 'pandas'\
+ 'networkx' \
+ 'cftime' \
+ 'seaborn' 
+ 
+RUN conda config --add channels https://conda.anaconda.org/gurobi
+RUN conda install gurobi
+```
