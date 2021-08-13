@@ -3,7 +3,15 @@
 # is forked off into a separate process.
 #
 
+
 echo "start of before.sh"
+if [ -z ${HOME+x} ];
+then
+    export HOME=$(echo ~)
+	source /etc/profile
+	source /etc/bashrc
+	source $HOME/.bashrc
+fi
 
 # Export the module function if it exists
 [[ $(type -t module) == "function" ]] && export -f module

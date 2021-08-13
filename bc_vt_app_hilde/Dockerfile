@@ -30,20 +30,22 @@ RUN apt-get update --yes && \
     nano-tiny && \
     apt-get clean && rm -rf /var/lib/apt/lists/*
 # Conda packages from course
-RUN conda install -c anaconda python=3.7
-RUN conda install -c conda-forge numpy
-RUN conda install -c conda-forge jupyterlab
-RUN conda install -c conda-forge matplotlib
-RUN conda install -c conda-forge scipy
-# RUN conda install -c conda-forge cartopy
-RUN conda install -c conda-forge scikit-learn
-RUN conda install -c conda-forge folium
-RUN conda install -c conda-forge more-itertools
-RUN conda install -c conda-forge pandas
-#RUN conda install -c delichon pandas_datareader
-RUN conda install -c conda-forge networkx
-RUN conda install -c conda-forge cftime
-RUN conda install -c conda-forge seaborn
+RUN conda install -y -c anaconda python=3.7
+RUN conda -y -c conda-forge numpy
+ 'jupyterlab' \
+ 'matplotlib' \
+ 'scipy'\
+ 'scikit-learn'
+ 'folium' \
+ 'more-itertools'
+ 'pandas'\
+ 'networkx' \
+ 'cftime' \
+ 'seaborn' && \
+  conda clean --all -f -y && \
+  fix-permissions "${CONDA_DIR}" && \
+  fix-permissions "/home/${NB_USER}"
+
 
 RUN conda config --add channels https://conda.anaconda.org/gurobi
 RUN conda install gurobi
