@@ -20,7 +20,7 @@ echo running on ${host}:${port}
 echo "cluster: <%= context.cluster %>"
 if [ <%= context.cluster %> = 'cascades' ] || [ <%= context.cluster %> = 'dragonstooth' ] 
 then 
-  module load singularity/3.3.0
+  module load singularity/3.5.1
   export sif_file=/groups/arcsingularity/<%= context.Container %>
 else 
   module load containers/singularity
