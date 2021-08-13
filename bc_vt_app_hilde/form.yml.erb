@@ -30,7 +30,7 @@ attributes:
     widget: select
     label: "use container"
     help: |
-       - These Images are pulled directly from the Jupyter Docker Stacks.  See here: https://jupyter-docker-stacks.readthedocs.io/en/latest/using/selecting.html#core-stacks
+       - Jupyter Docker Stacks images are extended with packages.  See here: https://jupyter-docker-stacks.readthedocs.io/en/latest/using/selecting.html#core-stacks
     value: ""    
     options:
     <%- Dir.glob('/projects/arcsingularity/AMD/*app_hilde*sif').each do |f| -%>

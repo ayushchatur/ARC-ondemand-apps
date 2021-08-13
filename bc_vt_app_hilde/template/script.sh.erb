@@ -17,8 +17,13 @@ echo "TIMING -- Starting main script at: $(date)"
 echo starting singularity
 echo running on ${host}:${port}
 
-module load containers/singularity
+if [ <%= context.cluster == 'cascades'%>] || [ <%= context.cluster == 'dragonstooth'%>] ; then 
+  module load singularity/3.3.0
+else 
+  module load containers/singularity
+fi
 
+module list
 unset SINGULARITY_TMPDIR
 
 export SINGULARITYENV_LD_LIBRARY_PATH=$LD_LIBRARY_PATH
@@ -40,7 +45,7 @@ set -x
 #
 #
 pwd
-module list
+
 singularity exec --writable-tmpfs --bind=${TMPDIR}:/tmp,/projects:/projects,/work:/work \
 /projects/arcsingularity/AMD/<%= context.Container %> bash ./run_script.sh
 
