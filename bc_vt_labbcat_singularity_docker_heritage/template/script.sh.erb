@@ -1,19 +1,19 @@
-#!/usr/bin/env bash
+#!/bin/bash
 pwd
 unset XDG_RUNTIME_DIR
-export http_proxy="http://uaserve.cc.vt.edu:8080"; export https_proxy="http://uaserve.cc.vt.edu:8080"
+
 
 
 # one-time admin setup: pull the LaBB-CAT and mysql containers
-# module load singularity/3.5.1
-# export SINGULARITY_PULLDIR=/groups/arcsingularity
+# module load containers/singularity
+# export SINGULARITY_PULLDIR="/projects/arcsingularity/AMD"
 # singularity pull docker://mysql/mysql-server:5.6
 # singularity pull --name labbcat_${labbcatver}.sif docker://nzilbb/labbcat:$labbcatver
 
 echo starting singularity
 
 module load singularity/3.5.1
-sifdir="/groups/arcsingularity"
+sifdir="/groups/arcsingularity/"
 
 # LaBB-CAT Image
 labbcatver="<%= context.labbcatversion %>"
@@ -40,13 +40,13 @@ if [[ ! -d $datadir ]]; then
   mkdir -p $labbcatdir
 
   #copy labbcat files
-  singularity exec -bind=${labbcatdir} $labbcatimg cp -r /labbcat $labbcatdir/
+  singularity exec --bind=$labbcatdir $labbcatimg cp -r /labbcat $labbcatdir/
   #copy tomcat files
   mkdir -p $labbcatdir/usr/local
-  singularity exec -bind=${labbcatdir} $labbcatimg cp -r /usr/local/tomcat $labbcatdir/usr/local/
+  singularity exec --bind=$labbcatdir $labbcatimg cp -r /usr/local/tomcat $labbcatdir/usr/local/
   #copy /usr/local/bin files
   mkdir -p $labbcatdir/usr/local #unnecessary since we did for tomcat above
-  singularity exec -bind=${labbcatdir} $labbcatimg cp -r /usr/local/bin $labbcatdir/usr/local/
+  singularity exec --bind=$labbcatdir $labbcatimg cp -r /usr/local/bin $labbcatdir/usr/local/
   
   #symlink labbcat to ROOT webapps directory
   rm $labbcatdir/usr/local/tomcat/webapps/ROOT
@@ -69,7 +69,7 @@ if [[ ! -d $datadir ]]; then
   #add port
   echo '#specify port' >> $mysqldir/etc/my.cnf
   echo 'port=3306' >> $mysqldir/etc/my.cnf
-  
+
   #create key directories
   mkdir -p $mysqldir/var/lib
   mkdir -p $mysqldir/var/run
@@ -128,8 +128,7 @@ echo "  redirect port:   $redirectport"
 
 #set labbcat base url (used for links and stylesheets, etc)
 LABBCAT_BASE_URL="https://ood.arc.vt.edu"
-## [[ $SLURM_SUBMIT_HOST == *"ondemand-preprod"* ]] && LABBCAT_BASE_URL="https://ondemand-preprod.it.vt.edu"
-[[ $SLURM_SUBMIT_HOST == *"ood"* ]] && LABBCAT_BASE_URL="https://ood.arc.vt.edu"
+[[ $SLURM_SUBMIT_HOST == *"ondemand"* ]] && LABBCAT_BASE_URL="https://ondemand.it.vt.edu"
 LABBCAT_BASE_URL="${LABBCAT_BASE_URL}/rnode/$(hostname)/$port"
 #LABBCAT_BASE_URL="/rnode/$(hostname)/$port"
 LABBCAT_REDIRECT_REWRITE="/rnode/$(hostname)/$port" #fix double prefix issue: https://discourse.osc.edu/t/double-url-prefixing-for-web-app/1335

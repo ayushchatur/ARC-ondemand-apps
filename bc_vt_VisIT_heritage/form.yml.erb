@@ -2,6 +2,7 @@
 #
 ---
 cluster: 
+  - 'dragonstooth'
   - 'cascades'
 
 # Define attribute values that aren't meant to be modified by the user within
@@ -26,13 +27,7 @@ attributes:
     max: 48
     step: 1
 
-  bc_num_slots:
-    label: Number of nodes (currently confined to 1)
-    required: true
-    value: 1
-    min: 1
-    max: 1
-    step: 1
+  bc_num_slots: 1
 
   bc_account:
     widget: text_field
@@ -43,10 +38,10 @@ attributes:
 
   num_cores:
     widget: number_field
-    label: Number of cores per node (min-1, max-128)
+    label: Number of cores per node (min-1, max-32-cascades, max-24-dragonstooth)
     value: 1
     min: 1
-    max: 128
+    max: 32
     step: 1
 
   gpu_per_node:
@@ -64,11 +59,14 @@ attributes:
 
   version:
     widget: select
-    label: "Comsol version"
-    help: "This defines the version of Comsol you want to load."
+    label: "VisIT version"
+    help: "This defines the version of VisIT you want to load."
     options:
-      - [ "5.3a", "comsol/5.3a" ]
-      - [ "5.4", "comsol/5.4" ]
+    <%- Dir.glob('/projects/arcsingularity/ood-visit*sif').each do |f| -%>
+      <%- sif = f.sub('/projects/arcsingularity/','') -%>
+      <%- Vver = f.sub('/projects/arcsingularity/','').sub('ood-visit_','').chomp(".sif") -%>
+      - [ "<%= Vver %>", "<%= sif %>" ]
+    <%- end -%>
 
 # All of the attributes that make up the Dashboard form (in respective order),
 # and made available to the submit configuration file and the template ERB

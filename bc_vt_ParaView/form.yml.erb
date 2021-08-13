@@ -2,7 +2,8 @@
 #
 ---
 cluster: 
-  - 'cascades'
+  - 'tinkercliffs'
+  - 'infer'
 
 # Define attribute values that aren't meant to be modified by the user within
 # the Dashboard form
@@ -10,13 +11,8 @@ attributes:
 
 # specify widgets for user modifiable job settings
   bc_queue:
-    widget: select
-    label: "Partition or queue"
     help: |
-      - Partition to run in.
-    options:
-      - [ "normal_q", "normal_q" ]
-      - [ "dev_q", "dev_q" ]
+      - Currently available on t4_normal_q, t4_dev_q, normal_q, dev_q, and largemem_q
 
   bc_num_hours:
     label: Number of hours (min-1, max-48)
@@ -26,13 +22,13 @@ attributes:
     max: 48
     step: 1
 
-  bc_num_slots:
-    label: Number of nodes (currently confined to 1)
-    required: true
-    value: 1
-    min: 1
-    max: 1
-    step: 1
+  bc_num_slots: 1
+#    label: Number of nodes (currently confined to 1)
+#    required: true
+#    value: 1
+#    min: 1
+#    max: 1
+#    step: 1
 
   bc_account:
     widget: text_field
@@ -49,7 +45,7 @@ attributes:
     max: 128
     step: 1
 
-  gpu_per_node:
+  gpu_per_node: 
     widget: number_field
     label: Number of GPUs per node (min-0, max-2)
     value: 0
@@ -62,20 +58,11 @@ attributes:
   bc_vnc_resolution:
     required: true
 
-  version:
-    widget: select
-    label: "Comsol version"
-    help: "This defines the version of Comsol you want to load."
-    options:
-      - [ "5.3a", "comsol/5.3a" ]
-      - [ "5.4", "comsol/5.4" ]
-
 # All of the attributes that make up the Dashboard form (in respective order),
 # and made available to the submit configuration file and the template ERB
 # files
 #
 form:
-  - version
   - cluster
   - bc_account
   - reservation

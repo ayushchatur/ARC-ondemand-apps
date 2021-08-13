@@ -1,0 +1,20 @@
+#!/bin/bash
+pwd
+unset XDG_RUNTIME_DIR
+function have { type -t "$1" >/dev/null; }
+while ! have module; do echo "waiting"; sleep 1; done; echo "module works"
+
+echo starting singularity
+
+module load containers/singularity
+module load $LMOD_SYSTEM_NAME/matlab/R2021a
+
+echo starting Matlab on $(hostname) using $port
+
+## APP_PORT=$port MLM_LICENSE_FILE=/apps/packages/matlab/R2021a/licenses/network.lic
+
+singularity run --writable-tmpfs \
+    --bind=$MATLAB_DIR:/opt/matlab,$TMPFS:/tmp,/work/${USER},/projects,`pwd`/matlab.rc:/mathworks.rc \
+    /projects/arcsingularity/matlab-html_July2021b.sif
+
+wait $!

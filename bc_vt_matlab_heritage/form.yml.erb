@@ -2,6 +2,7 @@
 #
 ---
 cluster: 
+  - 'dragonstooth'
   - 'cascades'
 
 # Define attribute values that aren't meant to be modified by the user within
@@ -43,10 +44,10 @@ attributes:
 
   num_cores:
     widget: number_field
-    label: Number of cores per node (min-1, max-128)
+    label: Number of cores per node (min-1, max-32-cascades, max-24-dragonstooth)
     value: 1
     min: 1
-    max: 128
+    max: 32
     step: 1
 
   gpu_per_node:
@@ -67,8 +68,12 @@ attributes:
     label: "Comsol version"
     help: "This defines the version of Comsol you want to load."
     options:
-      - [ "5.3a", "comsol/5.3a" ]
-      - [ "5.4", "comsol/5.4" ]
+      <%- availmods = %x( ssh -q cascades1.arc.vt.edu module spider matlab 2>&1 | grep matlab | grep R | grep -v spider ).split("\n") -%>
+      <%- availmods.each do |f| -%>
+        <%- usemod = f -%>
+        <%- Mver = f.split('/').last -%>
+        - [ "<%= Mver %>", "<%= usemod %>" ]
+      <%- end -%>
 
 # All of the attributes that make up the Dashboard form (in respective order),
 # and made available to the submit configuration file and the template ERB

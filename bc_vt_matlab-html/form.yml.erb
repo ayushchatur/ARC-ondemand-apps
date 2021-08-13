@@ -1,37 +1,31 @@
 # Batch Connect app configuration file
 #
 ---
-cluster: 
-  - 'cascades'
+cluster: 'tinkercliffs'
 
 # Define attribute values that aren't meant to be modified by the user within
 # the Dashboard form
 attributes:
+  # Set and load the  modules and environment that need to be loaded for Jupyter to run
 
-# specify widgets for user modifiable job settings
   bc_queue:
-    widget: select
-    label: "Partition or queue"
     help: |
-      - Partition to run in.
-    options:
-      - [ "normal_q", "normal_q" ]
-      - [ "dev_q", "dev_q" ]
+      - To request a GPU enabled queue, preface it with v100_. Example: v100_normal_q
 
   bc_num_hours:
     label: Number of hours (min-1, max-48)
     required: true
     value: 1
     min: 1
-    max: 48
+    max: 72
     step: 1
 
   bc_num_slots:
-    label: Number of nodes (currently confined to 1)
+    label: Number of nodes (min-1, max-2)
     required: true
     value: 1
     min: 1
-    max: 1
+    max: 2
     step: 1
 
   bc_account:
@@ -54,29 +48,16 @@ attributes:
     label: Number of GPUs per node (min-0, max-2)
     value: 0
     min: 0
-    max: 1
+    max: 2
     step: 1
     help: |
        - If requesting GPU nodes, you must enter a GPU-enabled Partition above or the job will fail.
-
-  bc_vnc_resolution:
-    required: true
-
-  version:
-    widget: select
-    label: "Comsol version"
-    help: "This defines the version of Comsol you want to load."
-    options:
-      - [ "5.3a", "comsol/5.3a" ]
-      - [ "5.4", "comsol/5.4" ]
 
 # All of the attributes that make up the Dashboard form (in respective order),
 # and made available to the submit configuration file and the template ERB
 # files
 #
 form:
-  - version
-  - cluster
   - bc_account
   - reservation
   - bc_queue
@@ -84,5 +65,4 @@ form:
   - bc_num_slots
   - num_cores
   - gpu_per_node
-  - bc_vnc_resolution
   - bc_email_on_started
