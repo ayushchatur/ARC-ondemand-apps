@@ -17,11 +17,16 @@ echo "TIMING -- Starting main script at: $(date)"
 echo starting singularity
 echo running on ${host}:${port}
 
-if [ <%= context.cluster == 'cascades'%>] || [ <%= context.cluster == 'dragonstooth'%>] ; then 
+echo "cluster: <%= context.cluster %>"
+if [ <%= context.cluster %> = 'cascades' ] || [ <%= context.cluster %> = 'dragonstooth' ] 
+then 
   module load singularity/3.3.0
+  export sif_file=/groups/arcsingularity/<%= context.Container %>
 else 
   module load containers/singularity
+  export sif_file=/projects/arcsingularity/AMD/<%= context.Container %>
 fi
+
 
 module list
 unset SINGULARITY_TMPDIR
@@ -34,7 +39,7 @@ if [ ! -d "$DIR" ]; then
   # need to install CONDA PACKAGES
   mkdir -p $DIR
   echo "Installing conda packages files in ${DIR} ..."
-  singularity exec --nv --writable-tmpfs --bind=${TMPDIR}:/tmp,`pwd`/install_script.sh:/install.sh,`pwd`/env.yaml:/env.yaml /projects/arcsingularity/AMD/<%= context.Container %> bash /install.sh
+  singularity exec --nv --writable-tmpfs --bind=${TMPDIR}:/tmp,`pwd`/install_script.sh:/install.sh,`pwd`/env.yaml:/env.yaml $sif_file bash /install.sh
 fi
 
 # Benchmark info
@@ -47,6 +52,6 @@ set -x
 pwd
 
 singularity exec --writable-tmpfs --bind=${TMPDIR}:/tmp,/projects:/projects,/work:/work \
-/projects/arcsingularity/AMD/<%= context.Container %> bash ./run_script.sh
+$sif_file bash ./run_script.sh
 
 echo "end of script.sh"
